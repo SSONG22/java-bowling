@@ -1,6 +1,6 @@
 package bowling.domain.frame;
 
-import bowling.domain.Pins;
+import bowling.domain.Rollings;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,31 +9,36 @@ import java.util.Objects;
 public class NormalFrame implements Frame {
 
     private final FrameNumber frameNumber;
-    private final Pins pitchPins;
+    private final Rollings pitchRollings;
 
     public NormalFrame(final int frameNumber) {
         this.frameNumber = new FrameNumber(frameNumber);
-        this.pitchPins = new Pins(new LinkedList<>());
+        this.pitchRollings = new Rollings(new LinkedList<>());
     }
 
     public NormalFrame(final int frameNumber, final List<Integer> pins) {
         this.frameNumber = new FrameNumber(frameNumber);
-        this.pitchPins = new Pins(pins);
+        this.pitchRollings = new Rollings(pins);
     }
 
     @Override
     public boolean isEnd() {
-        return pitchPins.isEnd(frameNumber);
+        return pitchRollings.isEnd(frameNumber);
     }
 
     @Override
-    public Pins pitch(final int countOfPins) {
-        return pitchPins.pitch(countOfPins, frameNumber);
+    public Rollings pitch(final int countOfPins) {
+        return pitchRollings.pitch(countOfPins, frameNumber);
     }
 
     @Override
     public String valueOfFrame() {
-        return pitchPins.result();
+        return pitchRollings.result();
+    }
+
+    @Override
+    public Frame next() {
+        return null;
     }
 
     @Override
@@ -42,11 +47,11 @@ public class NormalFrame implements Frame {
         if (o == null || getClass() != o.getClass()) return false;
         NormalFrame that = (NormalFrame) o;
         return Objects.equals(frameNumber, that.frameNumber) &&
-                Objects.equals(pitchPins, that.pitchPins);
+                Objects.equals(pitchRollings, that.pitchRollings);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(frameNumber, pitchPins);
+        return Objects.hash(frameNumber, pitchRollings);
     }
 }

@@ -3,11 +3,12 @@ package bowling.domain;
 import bowling.domain.frame.FrameNumber;
 import bowling.exception.InputException;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Pins {
+public class Rollings {
     private static final int FIRST_INDEX = 0;
     private static final int FORMAL_SIZE = 2;
     private static final int MAX_SIZE = 3;
@@ -15,19 +16,19 @@ public class Pins {
     private static final String EXCESS_PITCH_COUNT_ERROR = "더이상 투구할 수 없습니다.";
     private static final String EXCESS_PIN_COUNTS_ERROR = "한 노멀 프레임에서 쓰러트릴 수 있는 핀의 갯수를 초과했습니다.";
 
-    private List<Pin> pins;
+    private LinkedList<Rolling> rollings;
 
-    public Pins(final List<Integer> pins) {
-        if (pins.size() > MAX_SIZE) {
+    public Rollings(final List<Integer> rollings) {
+        if (rollings.size() > MAX_SIZE) {
             throw new InputException(EXCESS_PITCH_COUNT_ERROR);
         }
-        this.pins = pins.stream()
-                .map(Pin::new)
-                .collect(Collectors.toList());
+        this.rollings = new LinkedList<>(rollings.stream()
+                .map(Rolling::new)
+                .collect(Collectors.toList()));
     }
 
     public boolean isEnd(final FrameNumber frameNumber) {
-        if (pins.isEmpty()) {
+        if (rollings.isEmpty()) {
             return false;
         }
         if (!frameNumber.isLastNumber()) {
@@ -37,20 +38,19 @@ public class Pins {
     }
 
     private boolean isSameSize(int size) {
-        return pins.size() == size;
+        return rollings.size() == size;
     }
 
     private boolean isStrike() {
-        return pins.size() < MAX_SIZE
-                && pins.get(FIRST_INDEX).equals(new Pin(Pin.MAX_PINS));
+        return rollings.size() < MAX_SIZE
+                && rollings.get(FIRST_INDEX).equals(new Rolling(Rolling.MAX_PINS));
     }
 
     public boolean isSpare() {
-        return isSameSize(FORMAL_SIZE)
-                && pins.stream().map(Pin::value).reduce(0, Integer::sum) == Pin.MAX_PINS;
+        return isSameSize(FORMAL_SIZE) && sum() == Rolling.MAX_PINS;
     }
 
-    public Pins pitch(final int countOfPins, final FrameNumber frameNumber) {
+    public Rollings pitch(final int countOfPins, final FrameNumber frameNumber) {
         if (isEnd(frameNumber)) {
             throw new InputException(EXCESS_PITCH_COUNT_ERROR);
         }
@@ -58,36 +58,49 @@ public class Pins {
         if (!frameNumber.isLastNumber() && isOverPins(countOfPins)) {
             throw new InputException(EXCESS_PIN_COUNTS_ERROR);
         }
-        pins.add(new Pin(countOfPins));
+        rollings.add(new Rolling(countOfPins));
         return this;
     }
 
     private boolean isOverPins(final int countOfPins) {
-        return pins.stream().map(Pin::value).reduce(0, Integer::sum) + countOfPins > Pin.MAX_PINS;
+        return sum() + countOfPins > Rolling.MAX_PINS;
     }
-
 
     public String result() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int index = FIRST_INDEX; index < pins.size(); index++) {
+        for (int index = FIRST_INDEX; index < rollings.size(); index++) {
             int previous = index - OPERATION;
-            if (index > FIRST_INDEX) previous = pins.get(index - OPERATION).value();
+            if (index > FIRST_INDEX) previous = rollings.get(index - OPERATION).value();
 
-            stringBuilder.append(ScoreType.findType(previous, pins.get(index).value()));
+            stringBuilder.append(ScoreType.findType(previous, rollings.get(index).value()));
         }
         return stringBuilder.toString();
+    }
+
+    public Rolling currentRolling() {
+        return rollings.getLast();
+    }
+
+    public Rolling next(Rolling rolling) {
+        int index = rollings.indexOf(rolling);
+        return rollings.get(index + OPERATION);
+    }
+
+    public int sum() {
+        return rollings.stream().map(Rolling::value).reduce(0, Integer::sum);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Pins pins1 = (Pins) o;
-        return Objects.equals(pins, pins1.pins);
+        Rollings rollings1 = (Rollings) o;
+        return Objects.equals(rollings, rollings1.rollings);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(pins);
+        return Objects.hash(rollings);
     }
+
 }

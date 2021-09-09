@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-class PinTest {
+class RollingTest {
 
     @DisplayName("쓰러트린 공의 갯수는 0개에서 10개다.")
     @Test
     void validate() {
-        assertThat(new Pin(1)).isEqualTo(new Pin(1));
-        assertThatThrownBy(() -> new Pin(11))
+        assertThat(new Rolling(1)).isEqualTo(new Rolling(1));
+        assertThatThrownBy(() -> new Rolling(11))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 

@@ -10,9 +10,9 @@ public class Frames {
     private static final int START_FRAME_NUMBER = 1;
     private static final int NEXT_NUMBER = 1;
 
-    private List<Frame> frames;
+    private LinkedList<Frame> frames;
 
-    public Frames(final List<Frame> frames) {
+    public Frames(final LinkedList<Frame> frames) {
         this.frames = frames;
     }
 
@@ -59,4 +59,5 @@ public class Frames {
                 .map(Frame::valueOfFrame)
                 .collect(Collectors.toList());
     }
+
 }

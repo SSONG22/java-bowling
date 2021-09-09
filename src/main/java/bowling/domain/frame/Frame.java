@@ -1,9 +1,11 @@
 package bowling.domain.frame;
 
-import bowling.domain.Pins;
+import bowling.domain.Rollings;
 
 public interface Frame {
     boolean isEnd();
-    Pins pitch(int countOfPins);
+    Rollings pitch(int countOfPins);
     String valueOfFrame();
+    Frame next();
+    int getScore();
 }

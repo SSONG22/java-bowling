@@ -16,7 +16,7 @@ public class ResultView {
     private ResultView() {
     }
 
-    public static void printInit(Name playerName) {
+    public static void printInit(final Name playerName) {
         printFrame();
 
         printName(playerName.value());

@@ -1,10 +1,13 @@
 package bowling.domain;
 
+import bowling.domain.frame.Frame;
 import bowling.domain.frame.NormalFrame;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -40,7 +43,7 @@ class NormalFrameTest {
     @Test
     void gutter() {
         assertThat(new NormalFrame(2, Arrays.asList(1)).pitch(0).result()).isEqualTo("1|-");
-        assertThat(new NormalFrame(2, Arrays.asList(1,0)).valueOfFrame()).isEqualTo("1|-");
+        assertThat(new NormalFrame(2, Arrays.asList(1, 0)).valueOfFrame()).isEqualTo("1|-");
     }
 
     @DisplayName("정해진 투구 횟수 이상 투구하려 할 때, 에러 발생")
@@ -58,8 +61,33 @@ class NormalFrameTest {
     @DisplayName("현재 Frame 에서 다음 Frame 을 생성할때 판단 기준인 isEnd ")
     @Test
     void nextFrame() {
-        assertThat(new NormalFrame(1, Arrays.asList(1,2)).isEnd()).isTrue();
+        assertThat(new NormalFrame(1, Arrays.asList(1, 2)).isEnd()).isTrue();
         assertThat(new NormalFrame(1, Arrays.asList(10)).isEnd()).isTrue();
-        assertThat(new NormalFrame(1, Arrays.asList(5,5)).isEnd()).isTrue();
+        assertThat(new NormalFrame(1, Arrays.asList(5, 5)).isEnd()).isTrue();
     }
+
+    @DisplayName("스트라이크 일때 점수 계산")
+    @Test
+    void strike_score(){
+        // 다음 투구 2개
+        Frame normalFrame = new NormalFrame(1);
+        // 투구 던지기
+        normalFrame.pitch(10);
+        normalFrame.pitch(2);
+        normalFrame.pitch(3);
+        int score = normalFrame.getScore();
+    }
+
+    @DisplayName("스페어 일때 점수 계산")
+    @Test
+    void spare_score(){
+
+    }
+
+    @DisplayName("미스,거터 점수 계산")
+    @Test
+    void miss_gutter_score(){
+
+    }
+
 }

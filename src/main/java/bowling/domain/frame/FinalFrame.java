@@ -1,7 +1,7 @@
 package bowling.domain.frame;
 
 
-import bowling.domain.Pins;
+import bowling.domain.Rollings;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,31 +11,41 @@ public class FinalFrame implements Frame {
     public static final int FINAL_FRAME_NUMBER = 10;
 
     private final FrameNumber frameNumber;
-    private final Pins pitchPins;
+    private final Rollings pitchRollings;
 
     public FinalFrame() {
         this.frameNumber = new FrameNumber(FINAL_FRAME_NUMBER);
-        this.pitchPins = new Pins(new LinkedList<>());
+        this.pitchRollings = new Rollings(new LinkedList<>());
     }
 
     public FinalFrame(final List<Integer> pins) {
         this.frameNumber = new FrameNumber(FINAL_FRAME_NUMBER);
-        this.pitchPins = new Pins(pins);
+        this.pitchRollings = new Rollings(pins);
     }
 
     @Override
     public boolean isEnd() {
-        return pitchPins.isEnd(frameNumber);
+        return pitchRollings.isEnd(frameNumber);
     }
 
     @Override
-    public Pins pitch(final int countOfPins) {
-        return pitchPins.pitch(countOfPins, frameNumber);
+    public Rollings pitch(final int countOfPins) {
+        return pitchRollings.pitch(countOfPins, frameNumber);
     }
 
     @Override
     public String valueOfFrame() {
-        return pitchPins.result();
+        return pitchRollings.result();
+    }
+
+    @Override
+    public Frame next() {
+        return null;
+    }
+
+    @Override
+    public int getScore() {
+        return 0;
     }
 
     @Override
@@ -44,11 +54,11 @@ public class FinalFrame implements Frame {
         if (o == null || getClass() != o.getClass()) return false;
         FinalFrame that = (FinalFrame) o;
         return Objects.equals(frameNumber, that.frameNumber) &&
-                Objects.equals(pitchPins, that.pitchPins);
+                Objects.equals(pitchRollings, that.pitchRollings);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(frameNumber, pitchPins);
+        return Objects.hash(frameNumber, pitchRollings);
     }
 }

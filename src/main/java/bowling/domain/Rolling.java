@@ -2,14 +2,14 @@ package bowling.domain;
 
 import java.util.Objects;
 
-public class Pin {
+public class Rolling {
 
     public static final int MAX_PINS = 10;
     public static final int MIN_PINS = 0;
 
     private final int countOfPins;
 
-    public Pin(final int countOfPins) {
+    public Rolling(final int countOfPins) {
         validate(countOfPins);
         this.countOfPins = countOfPins;
     }
@@ -20,12 +20,16 @@ public class Pin {
         }
     }
 
+    public int value() {
+        return countOfPins;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Pin pin = (Pin) o;
-        return countOfPins == pin.countOfPins;
+        Rolling rolling = (Rolling) o;
+        return countOfPins == rolling.countOfPins;
     }
 
     @Override
@@ -33,7 +37,4 @@ public class Pin {
         return Objects.hash(countOfPins);
     }
 
-    public int value() {
-        return countOfPins;
-    }
 }

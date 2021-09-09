@@ -4,9 +4,9 @@ import java.util.Arrays;
 import java.util.function.BiPredicate;
 
 public enum ScoreType {
-    STRIKE("X", (previous, current) -> (previous == -1 || previous == Pin.MAX_PINS) && current == Pin.MAX_PINS),
-    SPARE("|/", (previous, current) -> previous != -1 && previous < Pin.MAX_PINS && previous + current == Pin.MAX_PINS),
-    MISS("|", (previous, current) -> previous != -1 && previous < Pin.MAX_PINS && previous + current < Pin.MAX_PINS && current != 0),
+    STRIKE("X", (previous, current) -> (previous == -1 || previous == Rolling.MAX_PINS) && current == Rolling.MAX_PINS),
+    SPARE("|/", (previous, current) -> previous != -1 && previous < Rolling.MAX_PINS && previous + current == Rolling.MAX_PINS),
+    MISS("|", (previous, current) -> previous != -1 && previous < Rolling.MAX_PINS && previous + current < Rolling.MAX_PINS && current != 0),
     GUTTER("|-", (previous, current) -> previous != -1 && current == 0);
 
     private static final String SEPARATOR = "|";
