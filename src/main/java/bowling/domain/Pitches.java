@@ -51,6 +51,16 @@ public class Pitches {
                 .collect(Collectors.toList());
     }
 
+    public boolean isLastPitchStatus(final Status status) {
+        return pitches.get(pitches.size() - 1).status().equals(status);
+    }
+
+    public int sum() {
+        return pitches.stream()
+                .map(Pitch::intValue)
+                .reduce(0, Integer::sum);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

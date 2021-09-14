@@ -42,21 +42,12 @@ public class FinalFrame implements Frame {
                 || pitches.equalsToSize(MAXIMUM_FINAL_FRAME_PITCH);
     }
 
-
     public int sum() {
         return pitches.value()
                 .stream()
                 .map(Pitch::intValue)
                 .reduce(0, Integer::sum);
     }
-
-//    @Override
-//    public String result() {
-//        return pitches.value()
-//                .stream()
-//                .map(Pitch::value)
-//                .collect(Collectors.joining(Pitch.SEPARATOR));
-//    }
 
     @Override
     public Frame next() {
@@ -74,6 +65,16 @@ public class FinalFrame implements Frame {
     @Override
     public Pitches pitches() {
         return pitches;
+    }
+
+    @Override
+    public int addScore(Score beforeScore) {
+        return 0; // todo
+    }
+
+    @Override
+    public int score() {
+        return 0; // todo
     }
 
     @Override

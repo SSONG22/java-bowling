@@ -32,4 +32,8 @@ public class Frames {
     public List<Frame> value() {
         return frames;
     }
+
+    public Frame getNext(Frame frame) {
+        return frames.get(frames.indexOf(frame));
+    }
 }

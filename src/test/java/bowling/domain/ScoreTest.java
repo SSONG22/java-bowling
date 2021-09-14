@@ -8,7 +8,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ScoreTest {
 
@@ -21,7 +20,7 @@ class ScoreTest {
 
     @DisplayName("left 가 0 이 아니면 점수를 계산할 수 없다.")
     @ParameterizedTest
-    @CsvSource(value = {"1:2:3", "2:5:7", "10:2:12", "120:1:121"}, delimiter = ':')
+    @CsvSource(value = {"1:2:3", "2:5:7", "4:1:5"}, delimiter = ':')
     void getScore_error(int score, int left) {
         assertThatThrownBy(() -> new Score(score, left).getScore())
                 .isInstanceOf(BusinessException.class);
@@ -29,7 +28,7 @@ class ScoreTest {
 
     @DisplayName("노멀 투구(2회)를 던졌을 때 점수를 계산할 수 있고 누적합이다.")
     @ParameterizedTest
-    @CsvSource(value = {"1:2:3", "2:5:7", "10:2:12", "120:1:121"}, delimiter = ':')
+    @CsvSource(value = {"1:2:3", "2:5:7"}, delimiter = ':')
     void normal_score(int first, int second, int result) {
         assertThat(new Score(first, 1).pitch(second).getScore()).isEqualTo(result);
     }
@@ -37,12 +36,13 @@ class ScoreTest {
     @DisplayName("스트라이크 스코어를 생성하는데 left 수가 동일 하다.")
     @Test
     void strikeScore() {
-        assertThat(Score.strikeScore(100)).isEqualTo(new Score(100, 2));
+        assertThat(Score.ofStrike()).isEqualTo(new Score(10, 2));
     }
 
     @DisplayName("스페어 스코어를 생성하는데 left 수가 동일 하다..")
     @Test
     void spareScore() {
-        assertThat(Score.spareScore(100)).isEqualTo(new Score(100, 1));
+        assertThat(Score.ofSpare()).isEqualTo(new Score(10, 1));
     }
+
 }

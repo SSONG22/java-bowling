@@ -70,4 +70,22 @@ class NormalFrameTest {
     void next_final() {
         assertThat(new NormalFrame(9).pitch(10).next()).isEqualTo(new FinalFrame());
     }
+
+    @DisplayName("스트라이크 일 때 ")
+    @Test
+    void getScore_strike(){
+        Frame frame = new NormalFrame(1).pitch(10);
+        Frame next = frame.next().pitch(8).pitch(2); // next
+        int score = frame.score();
+        assertThat(score).isEqualTo(20);
+    }
+
+    @DisplayName("스페어 일때 ")
+    @Test
+    void getScore_spare(){
+        Frame frame = new NormalFrame(2).pitch(8).pitch(2);
+        Frame next = frame.next().pitch(8).pitch(2); // next
+        int score = frame.score();
+        assertThat(score).isEqualTo(18);
+    }
 }

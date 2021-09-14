@@ -8,6 +8,7 @@ public class Score {
 
     private static final int STRIKE_LEFT = 2;
     private static final int SPARE_LEFT = 1;
+    private static final int ZERO = 0;
 
     private int score;
     private int left;
@@ -17,16 +18,20 @@ public class Score {
         this.left = left;
     }
 
-    public static Score strikeScore(final int score) {
-        return new Score(score, STRIKE_LEFT);
+    public static Score ofStrike() {
+        return new Score(Pitch.MAXIMUM_COUNT_OF_PINS, STRIKE_LEFT);
     }
 
-    public static Score spareScore(final int score) {
-        return new Score(score, SPARE_LEFT);
+    public static Score ofSpare() {
+        return new Score(Pitch.MAXIMUM_COUNT_OF_PINS, SPARE_LEFT);
+    }
+
+    public static Score of(final int score) {
+        return new Score(score, ZERO);
     }
 
     public Score pitch(final int countOfPins) {
-        return new Score(score += countOfPins, left - 1);
+        return new Score(score += countOfPins, left -= 1);
     }
 
     public int getScore() {
@@ -37,7 +42,7 @@ public class Score {
     }
 
     public boolean canCalculateScore() {
-        return left == 0;
+        return left == ZERO;
     }
 
     @Override
